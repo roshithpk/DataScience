@@ -6,7 +6,7 @@ def stock_page():
     st.header("Stock Data Fetcher")
 
     ticker = st.text_input("Enter Stock Symbol", "INFY.NS")
-    years = st.slider("Select Number of Years", min_value=1, max_value=10, value=1)
+    years = st.slider("Select Number of Years", min_value=1, max_value=30, value=1)
     period_choice = f"{years}y"
     interval_choice = st.selectbox("Select Interval", ["1d", "1wk", "1mo", "3mo"])
 
