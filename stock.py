@@ -5,7 +5,7 @@ import pandas as pd
 def stock_page():
     st.header("Stock Data Fetcher")
 
-    ticker = st.text_input("Enter Stock Symbol", "INFY.NS")
+    ticker = st.text_input("Enter Stock Symbol", "INFY")
     period_choice = st.selectbox("Select Period", ["1y", "5y", "10y", "max"])
     interval_choice = st.selectbox("Select Interval", ["1d", "1wk", "1mo", "3mo"])
 
