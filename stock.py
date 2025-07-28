@@ -18,16 +18,20 @@ def stock_page():
             # Reset index → make 'Date' a column
             data.reset_index(inplace=True)
 
-            # Sort by latest date first
+            # Sort by latest date
             data = data.sort_values(by="Date", ascending=False)
 
-            # ✅ Select and order all columns you want
-           data[['Date', 'Open', 'High', 'Low', 'Close', 'AdjClose', 'Volume']]
+            # Define desired columns
+            desired_columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
+            available_columns = [col for col in desired_columns if col in data.columns]
 
-            # Show table
+            # Select only available columns
+            data = data[available_columns]
+
+            # Show the table
             st.dataframe(data)
 
-            # Prepare CSV
+            # CSV download
             csv = data.to_csv(index=False)
             st.download_button("Download CSV", csv, f"{ticker}_data.csv", "text/csv")
 
