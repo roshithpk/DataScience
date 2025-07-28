@@ -15,16 +15,19 @@ def stock_page():
         if data.empty:
             st.error("No data found. Please check your ticker symbol.")
         else:
-            # Clean data
+            # Reset index → make 'Date' a column
             data.reset_index(inplace=True)
+
+            # Sort by latest date first
             data = data.sort_values(by="Date", ascending=False)
-            data = data['Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
-            data.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
+
+            # ✅ Select and order all columns you want
+            data = data[['Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']]
 
             # Show table
             st.dataframe(data)
 
-            # Show Download button
+            # Prepare CSV
             csv = data.to_csv(index=False)
             st.download_button("Download CSV", csv, f"{ticker}_data.csv", "text/csv")
 
