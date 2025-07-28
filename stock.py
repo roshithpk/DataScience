@@ -22,9 +22,7 @@ def stock_page():
             data = data.sort_values(by="Date", ascending=False)
 
             # ✅ Select and order all columns you want
-            desired_columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
-            available_columns = [col for col in desired_columns if col in data.columns]
-            data = data[available_columns]
+           data[['Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']]
 
             # Show table
             st.dataframe(data)
