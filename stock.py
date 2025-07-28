@@ -23,7 +23,7 @@ def stock_page():
 
             # Define desired columns
             desired_columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
-            st.write("Columns returned:", data.columns.tolist())
+            #st.write("Columns returned:", data.columns.tolist())
             available_columns = [col for col in desired_columns if col in data.columns]
 
             # Select only available columns
