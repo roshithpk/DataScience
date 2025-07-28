@@ -15,24 +15,25 @@ def stock_page():
         if data.empty:
             st.error("No data found. Please check your ticker symbol.")
         else:
-            # Reset index → make 'Date' a column
             data.reset_index(inplace=True)
 
-            # Sort by latest date
+            # ✅ Flatten MultiIndex columns
+            if isinstance(data.columns, pd.MultiIndex):
+                data.columns = [col[0] if col[0] else "Date" for col in data.columns]
+
+            # ✅ Ensure Adj Close column exists (some intervals don’t return it)
+            if "Adj Close" not in data.columns:
+                data["Adj Close"] = data["Close"]
+
+            # ✅ Keep only required columns
+            data = data[['Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']]
+
+            # ✅ Sort latest → oldest
             data = data.sort_values(by="Date", ascending=False)
 
-            # Define desired columns
-            desired_columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
-            #st.write("Columns returned:", data.columns.tolist())
-            available_columns = [col for col in desired_columns if col in data.columns]
-
-            # Select only available columns
-            data = data[available_columns]
-
-            # Show the table
             st.dataframe(data)
 
-            # CSV download
+            # ✅ CSV download
             csv = data.to_csv(index=False)
             st.download_button("Download CSV", csv, f"{ticker}_data.csv", "text/csv")
 
