@@ -9,15 +9,7 @@ def stock_page():
     period_choice = st.selectbox("Select Period", ["1y", "5y", "10y", "max"])
     interval_choice = st.selectbox("Select Interval", ["1d", "1wk", "1mo", "3mo"])
 
-    col1, col2 = st.columns(2)  # two side-by-side buttons
-
-    with col1:
-        show_btn = st.button("Show Data")
-
-    with col2:
-        download_btn = st.button("Show & Download")
-
-    if show_btn or download_btn:
+    if st.button("Show Data"):
         data = fetch_stock_data(ticker, period_choice, interval_choice)
 
         if data.empty:
@@ -29,11 +21,12 @@ def stock_page():
             data = data[['Date', 'Close', 'High', 'Low', 'Open', 'Volume']]
             data.columns = ['Date', 'Close', 'High', 'Low', 'Open', 'Volume']
 
+            # Show table
             st.dataframe(data)
 
-            if download_btn:
-                csv = data.to_csv(index=False)
-                st.download_button("Download CSV", csv, f"{ticker}_data.csv", "text/csv")
+            # Show Download button
+            csv = data.to_csv(index=False)
+            st.download_button("Download CSV", csv, f"{ticker}_data.csv", "text/csv")
 
 def fetch_stock_data(ticker, period, interval):
     try:
