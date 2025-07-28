@@ -22,7 +22,7 @@ def stock_page():
             data = data.sort_values(by="Date", ascending=False)
 
             # Define desired columns
-            desired_columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
+            desired_columns = ['Date', 'Open', 'High', 'Low', 'Close', 'AdjClose', 'Volume']
             available_columns = [col for col in desired_columns if col in data.columns]
 
             # Select only available columns
