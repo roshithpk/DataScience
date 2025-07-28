@@ -16,6 +16,8 @@ def stock_page():
         else:
             # Reset index to make Date a column
             data.reset_index(inplace=True)
+            # Sort by Date descending (latest first)
+            data = data.sort_values(by="Date", ascending=False)
             # Keep only required columns
             data = data[['Date', 'Close', 'High', 'Low', 'Open', 'Volume']]
             data.columns = ['Date', 'Close', 'High', 'Low', 'Open', 'Volume']
