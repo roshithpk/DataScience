@@ -5,27 +5,35 @@ import pandas as pd
 def stock_page():
     st.header("Stock Data Fetcher")
 
-    ticker = st.text_input("Enter Stock Symbol", "INFY")
+    ticker = st.text_input("Enter Stock Symbol", "INFY.NS")
     period_choice = st.selectbox("Select Period", ["1y", "5y", "10y", "max"])
     interval_choice = st.selectbox("Select Interval", ["1d", "1wk", "1mo", "3mo"])
 
-    if st.button("Download Stock Data"):  # <-- This must be inside stock_page()
+    col1, col2 = st.columns(2)  # two side-by-side buttons
+
+    with col1:
+        show_btn = st.button("Show Data")
+
+    with col2:
+        download_btn = st.button("Show & Download")
+
+    if show_btn or download_btn:
         data = fetch_stock_data(ticker, period_choice, interval_choice)
+
         if data.empty:
             st.error("No data found. Please check your ticker symbol.")
         else:
-            # Reset index to make Date a column
+            # Clean data
             data.reset_index(inplace=True)
-            # Sort by Date descending (latest first)
             data = data.sort_values(by="Date", ascending=False)
-            # Keep only required columns
             data = data[['Date', 'Close', 'High', 'Low', 'Open', 'Volume']]
             data.columns = ['Date', 'Close', 'High', 'Low', 'Open', 'Volume']
 
             st.dataframe(data)
 
-            csv = data.to_csv(index=False)
-            st.download_button("Download CSV", csv, f"{ticker}_data.csv", "text/csv")
+            if download_btn:
+                csv = data.to_csv(index=False)
+                st.download_button("Download CSV", csv, f"{ticker}_data.csv", "text/csv")
 
 def fetch_stock_data(ticker, period, interval):
     try:
