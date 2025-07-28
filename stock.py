@@ -18,8 +18,8 @@ def stock_page():
             # Clean data
             data.reset_index(inplace=True)
             data = data.sort_values(by="Date", ascending=False)
-            data = data[['Date', 'Close', 'High', 'Low', 'Open', 'Volume']]
-            data.columns = ['Date', 'Close', 'High', 'Low', 'Open', 'Volume']
+            data = data[['Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']]
+            data.columns = ['Date', 'Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
 
             # Show table
             st.dataframe(data)
